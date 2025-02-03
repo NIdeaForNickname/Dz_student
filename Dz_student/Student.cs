@@ -2,24 +2,71 @@ namespace Dz_student;
 
 class Student : IComparable<Student>
 {
+    public string _firstName
+    {
+        get { return new string(firstName); }
+        private set { setFirstName(value); }
+    } 
     private string firstName; // имя
+    
+    public string _middleName
+    {
+        get { return new string(middleName); }
+        private set { setMiddleName(value); }
+    }
     private string middleName; // отчество
+    
+    public string _lastName
+    {
+        get { return new string(lastName); } 
+        private set { setLastName(value); }
+    }
     private string lastName; // фамилия
+    
+    
+    public DateTime _dateOfBirth
+    {
+        get {return new DateTime(dateOfBirth.Year, dateOfBirth.Month, dateOfBirth.Day);}
+        private set { setDateOfBirth(value); }
+    }
     private DateTime dateOfBirth;
+    
+    public string _homeAddress
+    {
+        get { return new string(_homeAddress); }
+        private set { setHome(value); }
+    }
     private string homeAddress;
+    
+    public string _phoneNumber
+    {
+        get { return new string(phoneNumber); }
+        private set { setPhoneNumber(value); }
+    }
     private string phoneNumber;
 
+    
+    public List<int> _grades {
+        get { return new List<int>(grades); }
+    }
     private List<int> grades;
+    
+    public List<int> _tests {
+        get { return new List<int>(tests); }
+    }
     private List<int> tests;
+    
+    public List<int> _exams {
+        get { return new List<int>(exams); }
+    }
     private List<int> exams;
 
     public Student(string firstName, string middleName, string lastName, string phoneNumber)
     {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        dateOfBirth = DateTime.Now;
+        setFirstName(firstName);
+        setMiddleName(middleName);
+        setLastName(lastName);
+        setPhoneNumber(phoneNumber);
         grades = new List<int>();
         tests = new List<int>();
         exams = new List<int>();
@@ -28,8 +75,8 @@ class Student : IComparable<Student>
     public Student(string firstName, string middleName, string lastName, string homeAddress, string phoneNumber, DateTime dateOfBirth) 
         : this(firstName, middleName, lastName, phoneNumber)
     {
-        this.dateOfBirth = dateOfBirth;
-        this.homeAddress = homeAddress;
+        setDateOfBirth(dateOfBirth);
+        setHome(homeAddress);
     }
 
     public void setFirstName(string firstName)
@@ -49,7 +96,7 @@ class Student : IComparable<Student>
 
     public void setDateOfBirth(DateTime dateOfBirth)
     {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth.AddYears(16).CompareTo(DateTime.Now) != 1 ? dateOfBirth : throw new Exception("Student must be at least 16yo.");;
     }
 
     public void setHome(string homeAddress)

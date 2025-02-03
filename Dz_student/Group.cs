@@ -2,26 +2,51 @@ namespace Dz_student;
 
 class Group
 {
+    // для строк не делал
+    public string _name
+    {
+        get { return new string(name); }
+        private set { SetName(value);  }
+    }
     private string name;
+
+    public string _groupSpeciality
+    {
+        get {return new string(groupSpeciality);}
+        private set { SetSpeciality(value); }
+    }
     private string groupSpeciality;
+
+    public int _course
+    {
+        get { return course; } 
+        private set { SetCourse(value); }
+    }
     private int course;
+
+    
+    public List<Student> _students
+    {
+        get { return new List<Student>(students); }
+    }
     private List<Student> students;
+
 
     public Group()
     {
         students = new List<Student>();
-        course = 1;
+        SetCourse(0);
     }
-
     public Group(string groupSpeciality) : base()
     {
-        this.groupSpeciality = groupSpeciality;
+        SetSpeciality(groupSpeciality);
     }
-
     public Group(string groupSpeciality, string name) : this(groupSpeciality)
     {
-        this.name = name;
+        SetName(name);
     }
+    
+    
     public void showInfo()
     {
         Console.WriteLine("Group name: {0}", name);
@@ -30,7 +55,7 @@ class Group
         students.Sort();
         foreach (var i in students)
         {
-            Console.Write("{0}: {1} {2}, Avg.: {3}, ", i.getPhoneNumber(), i.getFirstName(), i.getLastName(), (int)i.averageGrade());
+            Console.Write("{0}: {1} {2}, Avg.: {3}, \n", i.getPhoneNumber(), i.getFirstName(), i.getLastName(), (int)i.averageGrade());
         }
     }
 
@@ -55,14 +80,14 @@ class Group
         this.name = name;
     }
 
-    public void SetSpeciality(int speciality)
+    public void SetSpeciality(string speciality)
     {
-        this.groupSpeciality = speciality.ToString();
+        this.groupSpeciality = speciality;
     }
 
     public void SetCourse(int course)
     {
-        this.course = course;
+        this.course = course >= 0 ? course : throw new Exception("course must be greater or equal to 0.");
     }
 
     public void expelBelow7()
