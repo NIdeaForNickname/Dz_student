@@ -27,7 +27,7 @@ class Program
         d.randomGrade(5,10);
         e.randomGrade(5,10);
 
-        Group gr = new Group();
+        Group gr = new Group("software engineering");
         try {
             gr.SetCourse(-1);
         }
@@ -44,13 +44,27 @@ class Program
         gr.showInfo();
         Console.WriteLine();
         
-        gr.expelBelow7();
-        gr.showInfo();
-        Console.WriteLine();
+        Group gr2 = gr.Clone() as Group;
+        gr2.SetSpeciality("engineering");
         
-        gr.expelLowest();
+        gr2.showInfo();
+
+        try
+        {
+            gr2.removeStudent(a);
+        }
+        catch
+        {
+            Console.WriteLine("Student not found");
+        }
+        gr.removeStudent(a);
         gr.showInfo();
-        Console.WriteLine();
+        gr2.expelBelow7();
+        gr2.showInfo();
+        gr2[0].randomGrade(10, 12);
+        Console.WriteLine("");
+        gr.showInfo();
+        gr2.showInfo();
     }
 }
 

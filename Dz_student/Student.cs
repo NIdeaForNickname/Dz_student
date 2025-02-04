@@ -1,6 +1,6 @@
 namespace Dz_student;
 
-class Student : IComparable<Student>
+class Student : IComparable<Student>, ICloneable
 {
     public string _firstName
     {
@@ -33,7 +33,7 @@ class Student : IComparable<Student>
     
     public string _homeAddress
     {
-        get { return new string(_homeAddress); }
+        get { return new string(homeAddress); }
         private set { setHome(value); }
     }
     private string homeAddress;
@@ -67,12 +67,13 @@ class Student : IComparable<Student>
         setMiddleName(middleName);
         setLastName(lastName);
         setPhoneNumber(phoneNumber);
+        setDateOfBirth(DateTime.Now.Subtract(TimeSpan.FromDays(365 * 17)));
         grades = new List<int>();
         tests = new List<int>();
         exams = new List<int>();
     }
 
-    public Student(string firstName, string middleName, string lastName, string homeAddress, string phoneNumber, DateTime dateOfBirth) 
+    public Student(string firstName, string middleName, string lastName, string phoneNumber, string homeAddress, DateTime dateOfBirth) 
         : this(firstName, middleName, lastName, phoneNumber)
     {
         setDateOfBirth(dateOfBirth);
@@ -96,7 +97,7 @@ class Student : IComparable<Student>
 
     public void setDateOfBirth(DateTime dateOfBirth)
     {
-        this.dateOfBirth = dateOfBirth.AddYears(16).CompareTo(DateTime.Now) != 1 ? dateOfBirth : throw new Exception("Student must be at least 16yo.");;
+        this.dateOfBirth = DateTime.Now >= dateOfBirth.AddYears(-16) ? dateOfBirth : throw new Exception("Student must be at least 16yo.");
     }
 
     public void setHome(string homeAddress)
@@ -240,4 +241,12 @@ class Student : IComparable<Student>
     public static bool operator == (Student student1, Student student2) {return student1.averageGrade() == student2.averageGrade();}
     public static bool operator != (Student student1, Student student2) {return student1.averageGrade() != student2.averageGrade();}
 
+    public object Clone()
+    {
+        Student temp = new Student(_firstName, _middleName, _lastName, _phoneNumber, _homeAddress, _dateOfBirth);
+        foreach (var grade in grades) { temp.addGrade(grade); }
+        foreach (var test in tests) { temp.addTest(test); }
+        foreach (var exam in exams) { temp.addExam(exam); }
+        return temp;
+    }
 }

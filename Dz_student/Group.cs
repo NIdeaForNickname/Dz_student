@@ -1,6 +1,6 @@
 namespace Dz_student;
 
-class Group
+class Group: ICloneable
 {
     // для строк не делал
     public string _name
@@ -37,7 +37,7 @@ class Group
         students = new List<Student>();
         SetCourse(0);
     }
-    public Group(string groupSpeciality) : base()
+    public Group(string groupSpeciality) : this()
     {
         SetSpeciality(groupSpeciality);
     }
@@ -73,16 +73,20 @@ class Group
         {
             students.Remove(student);
         }
+        else
+        {
+            throw new Exception("Student not found");
+        }
     }
 
     public void SetName(string name)
     {
-        this.name = name;
+        this.name = new string(name);
     }
 
     public void SetSpeciality(string speciality)
     {
-        this.groupSpeciality = speciality;
+        this.groupSpeciality = new string(speciality);
     }
 
     public void SetCourse(int course)
@@ -136,5 +140,14 @@ class Group
     public Student this[int i]
     {
         get { return students[i]; }
+    }
+
+    public object Clone()
+    {
+        Group gr = new Group(_groupSpeciality, _name);
+        gr.SetCourse(_course);
+        foreach (var student in students) { gr.addStudent(student.Clone() as Student); }
+
+        return gr;
     }
 }
