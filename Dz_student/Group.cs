@@ -1,6 +1,8 @@
+using System.Collections;
+
 namespace Dz_student;
 
-class Group: ICloneable
+class Group: ICloneable, IEnumerable
 {
     // для строк не делал
     public string _name
@@ -149,5 +151,60 @@ class Group: ICloneable
         foreach (var student in students) { gr.addStudent(student.Clone() as Student); }
 
         return gr;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return new StudentEnumerator(students);
+    }
+    
+    private class StudentEnumerator : IEnumerator
+    {
+        private List<Student> _students;
+        private int position = -1;
+
+        public StudentEnumerator(List<Student> students)
+        {
+            _students = students;
+        }
+
+        public bool MoveNext()
+        {
+            position++;
+            return position < _students.Count;
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        public Student Current
+        {
+            get
+            {
+                try
+                {
+                    return _students[position];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+    }
+
+    public void Sort(IComparer<Student> comparer)
+    {
+        students.Sort(comparer);
     }
 }

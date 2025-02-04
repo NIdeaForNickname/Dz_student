@@ -65,6 +65,11 @@ class Program
         Console.WriteLine("");
         gr.showInfo();
         gr2.showInfo();
+        Console.WriteLine("");
+        foreach (Student student in gr)
+        {
+            Console.WriteLine(student.getFullName());
+        }
     }
 }
 

@@ -140,6 +140,10 @@ class Student : IComparable<Student>, ICloneable
         this.exams.AddRange(exams);
     }
 
+    public string getFullName()
+    {
+        return firstName + " " + middleName + " " + lastName;
+    }
     public string getFirstName()
     {
         return this.firstName;
@@ -248,5 +252,21 @@ class Student : IComparable<Student>, ICloneable
         foreach (var test in tests) { temp.addTest(test); }
         foreach (var exam in exams) { temp.addExam(exam); }
         return temp;
+    }
+
+    public class NameComparer : IComparer<Student>
+    {
+        public int Compare(Student x, Student y)
+        {
+            return x.getFullName().CompareTo(y.getFullName());
+        }
+    }
+
+    public class GradeComparer : IComparer<Student>
+    {
+        public int Compare(Student x, Student y)
+        {
+            return x.averageGrade().CompareTo(y.averageGrade());
+        }
     }
 }
